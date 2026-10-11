@@ -1,0 +1,59 @@
+import { useState } from "react";
+
+function Login({ setPage }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginUser = (e) => {
+    e.preventDefault();
+
+    // Admin login
+    if (username === "admin" && password === "admin123") {
+      setPage("admin");
+      return;
+    }
+
+    // User login
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (
+      savedUser &&
+      username === savedUser.username &&
+      password === savedUser.password
+    ) {
+      setPage("products");
+    } else {
+      alert("Invalid Username or Password");
+    }
+  };
+
+  return (
+    <div className="form-box">
+      <h2>Login</h2>
+
+      <form onSubmit={loginUser}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        <button type="submit">Login</button>
+      </form>
+
+      <p>Admin: admin / admin123</p>
+    </div>
+  );
+}
+
+export default Login;
